@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ty's Foods | Premium Desserts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Lora:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --y50:  #fffdf0;
+            --y100: #fef9d0;
+            --y200: #fdf0a0;
+            --y300: #f9e05c;
+            --y400: #f5cb1e;
+            --y500: #e8b800;
+            --y600: #c99a00;
+            --y700: #7a5c00;
+            --dark: #1a1400;
+            --dark2: #2a2000;
+            --ink:  #1a1400;
+            --muted: #7a6830;
+            --light-muted: #b09840;
+            --border: rgba(200,160,0,0.14);
+            --border-md: rgba(200,160,0,0.25);
+            --border-strong: rgba(200,160,0,0.4);
+            --bg: #fffcf0;
+            --white: #ffffff;
+            --r-sm: 12px;
+            --r-md: 18px;
+            --r-lg: 24px;
+            --r-xl: 30px;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: #f5eedc; 
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 430px;
+            background: var(--bg);
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 80px rgba(0,0,0,0.15);
+        }
+
+        .scroll-area { -ms-overflow-style:none; scrollbar-width:none; overflow-y: auto; }
+        .scroll-area::-webkit-scrollbar { display:none; }
+        
+        /* Chỉnh lại Emoji của Twemoji cho vừa vặn */
+        img.emoji { height: 1em; width: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; }
+
+        /* ═══ ĐOẠN CSS DÀNH CHO ICON HÌNH ẢNH TRONG TƯƠNG LAI ═══ */
+        .hot-featured-icon, .hot-card-icon, .list-icon, .cart-icon {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; 
+            background: var(--y100); 
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            transition: transform 0.3s ease;
+        }
+        /* Khi thay icon bằng thẻ <img> */
+        .hot-featured-icon img:not(.emoji), 
+        .hot-card-icon img:not(.emoji), 
+        .list-icon img:not(.emoji), 
+        .cart-icon img:not(.emoji) {
+            width: 90% !important; 
+            height: 90% !important; 
+            object-fit: contain !important; 
+            mix-blend-mode: multiply; 
+            image-rendering: -webkit-optimize-contrast; 
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+        }
+
+        /* ═══ HEADER ═══ */
+        .header {
+            flex-shrink: 0; 
+            background: #fcf9ea; 
+            padding: 0 20px;
+            height: 85px; 
+            display: flex; 
+            align-items: center;
+            justify-content: space-between; 
+            position: relative; 
+            z-index: 30;
+            border-radius: 0 0 24px 24px; 
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06); 
+            overflow: hidden; 
+        }
+        
+        /* CHỈNH KÍCH THƯỚC LOGO TẠI ĐÂY */
+        .logo { 
+            cursor: pointer; 
+            display: block; 
+            width: 140px; 
+            height: 100%;
+            position: relative;
+        }
+        .logo img { 
+            position: absolute;
+            top: 50%; 
+            left: -5px; 
+            width: 100%; 
+            height: auto; 
+            mix-blend-mode: multiply; 
+            transform: translateY(-50%) scale(1.15); 
+            transform-origin: left center;
+            animation: bowlBreath 4s ease-in-out infinite;
+        }
+        @keyframes bowlBreath {
+            0%, 100% { transform: translateY(-50%) scale(1.15); }
+            50% { transform: translateY(-53%) scale(1.15); } 
+        }
+
+        /* Hiệu ứng khói bốc lên */
+        .smoke-wrap { position: absolute; top: 15px; left: 20%; width: 60px; height: 40px; z-index: 5; pointer-events: none; }
+        .smoke { position: absolute; bottom: 0; background: rgba(138, 123, 77, 0.15); border-radius: 50%; filter: blur(4px); opacity: 0; }
+        .s1 { left: 10px; width: 15px; height: 15px; animation: steam 3s infinite linear; }
+        .s2 { left: 30px; width: 22px; height: 22px; animation: steam 4s infinite linear 1.2s; }
+        .s3 { left: 50px; width: 12px; height: 12px; animation: steam 3.5s infinite linear 2.5s; }
+        @keyframes steam {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+            30% { opacity: 0.8; }
+            100% { transform: translateY(-35px) translateX(15px) scale(3); opacity: 0; }
+        }
+
+        .header-actions { display: flex; align-items: center; gap: 10px; }
+
+        /* Lang Toggle Switch */
+        .lang-toggle {
+            display: flex; align-items: center; position: relative;
+            background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 50px; width: 56px; height: 26px; cursor: pointer; padding: 2px;
+        }
+        .lang-slider {
+            position: absolute; top: 2px; left: 2px;
+            width: 25px; height: 20px; background: #fff;
+            border-radius: 50px; transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+        .lang-toggle.en .lang-slider { transform: translateX(25px); }
+        .lang-btn { flex: 1; text-align: center; font-size: 10px; font-weight: 700; color: rgba(0,0,0,0.4); z-index: 1; transition: color 0.25s; }
+        .lang-toggle:not(.en) .lang-btn.vi { color: var(--dark); }
+        .lang-toggle.en .lang-btn.en { color: var(--dark); }
+
+        .fb-btn { display: flex; align-items: center; gap: 7px; background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.05); padding: 7px; border-radius: 50px; text-decoration: none; transition: background 0.2s; }
+        .fb-btn:hover { background: rgba(0,0,0,0.1); }
+        .fb-icon { width: 18px; height: 18px; background: #1877F2; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .fb-icon svg { width: 10px; height: 10px; fill: white; }
+
+        /* ═══ MAIN ═══ */
+        .main { flex:1; overflow-y:auto; }
+        .view { display:none; }
+        .view.active { display:block; }
+
+        /* ═══ HERO BANNER ═══ */
+        .hero { padding: 24px 16px 12px; position: relative; }
+        .hero-card { background: linear-gradient(135deg, #2a2000, #120e00); border-radius: 28px; padding: 24px 20px; display: flex; align-items: center; justify-content: space-between; gap: 10px; position: relative; overflow: hidden; box-shadow: 0 16px 36px rgba(245, 203, 30, 0.2); border: 1px solid rgba(245, 203, 30, 0.3); }
+        .hero-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(245,203,30,0.18) 0%, transparent 70%); border-radius: 50%; }
+        .hero-left { position: relative; z-index: 1; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(245,203,30,0.15); border: 1px solid rgba(245,203,30,0.25); color: var(--y300); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 5px 12px; border-radius: 50px; margin-bottom: 12px; width: fit-content; }
+        .hero-title { font-family: 'Lora', serif; font-size: 34px; font-weight: 700; color: #fff; line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 8px; }
+        .hero-title em { color: var(--y300); font-style: normal; }
+        .hero-sub { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 500; }
+        .hero-right { position: relative; z-index: 1; flex-shrink: 0; }
+        .hero-emoji-ring { width: 88px; height: 88px; border: 2px solid rgba(245,203,30,0.2); background: rgba(245,203,30,0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; animation: float 3.5s ease-in-out infinite; }
+        .hero-pip { position: absolute; top: -4px; right: -4px; width: 28px; height: 28px; background: var(--dark2); border: 1.5px solid rgba(245,203,30,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .hero-pip2 { position: absolute; bottom: 2px; left: -10px; width: 24px; height: 24px; background: var(--dark2); border: 1.5px solid rgba(255,255,255,0.07); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        @keyframes float { 0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-7px) rotate(4deg)} }
+
+        /* ═══ SECTION ═══ */
+        .section { padding: 0 16px; margin-top: 26px; }
+        .section-last { margin-bottom: 24px; }
+        .sec-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+        .sec-title { font-family: 'Lora', serif; font-size: 20px; font-weight: 700; color: var(--ink); letter-spacing: -0.3px; }
+        .sec-btn { font-family: 'Be Vietnam Pro', sans-serif; font-size: 11px; font-weight: 700; color: var(--y700); background: var(--y100); border: 1px solid var(--border-md); padding: 6px 14px; border-radius: 50px; cursor: pointer; transition: background 0.15s; }
+        .sec-btn:hover { background: var(--y200); }
+
+        /* ═══ HOT GRID ═══ */
+        .hot-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        .hot-featured { grid-column: 1 / -1; background: var(--white); border: 1.5px solid var(--border-md); border-radius: var(--r-lg); padding: 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s; }
+        .hot-featured:hover { border-color: var(--y400); box-shadow: 0 6px 20px rgba(200,160,0,0.12); transform: translateY(-2px); }
+        .hot-featured-icon { width: 68px; height: 68px; flex-shrink: 0; background: var(--y100); border: 1px solid var(--border-md); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 30px; transition: transform 0.18s; }
+        .hot-featured:hover .hot-featured-icon { transform: scale(1.06); }
+        .hot-featured-body { flex:1; }
+        .hot-featured-body h3 { font-weight: 700; font-size: 15px; color: var(--ink); margin-bottom: 3px; }
+        .hot-featured-body p { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+        .hot-featured-price { font-weight: 700; font-size: 15px; color: var(--y600); }
+        .hot-featured-add { width: 34px; height: 34px; flex-shrink: 0; background: var(--y400); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 500; color: var(--dark); line-height: 1; transition: background 0.15s, transform 0.15s; }
+        .hot-featured:hover .hot-featured-add { background: var(--y500); transform: scale(1.08); }
+
+        .hot-card { background: var(--white); border: 1.5px solid var(--border-md); border-radius: var(--r-lg); padding: 14px 10px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s; }
+        .hot-card:hover { border-color: var(--y400); box-shadow: 0 4px 16px rgba(200,160,0,0.1); transform: translateY(-2px); }
+        .hot-card-icon { width: 58px; height: 58px; background: var(--y100); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 10px; border: 1px solid var(--border); transition: transform 0.18s; }
+        .hot-card:hover .hot-card-icon { transform: scale(1.07); }
+        .hot-card h3 { font-weight: 700; font-size: 13px; color: var(--ink); margin-bottom: 6px; line-height: 1.3; }
+        .hot-card-price { font-weight: 700; font-size: 13px; color: var(--y600); }
+
+        /* ═══ LIST ITEM ═══ */
+        .list-item { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--r-lg); padding: 13px 13px; display: flex; align-items: center; gap: 12px; cursor: pointer; margin-bottom: 10px; transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s; }
+        .list-item:hover { border-color: var(--y400); box-shadow: 0 4px 16px rgba(200,160,0,0.1); transform: translateY(-1px); }
+        .list-icon { width: 58px; height: 58px; flex-shrink: 0; background: var(--y100); border-radius: var(--r-sm); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 26px; transition: transform 0.18s; }
+        .list-item:hover .list-icon { transform: scale(1.05); }
+        .list-info { flex:1; }
+        .list-info h3 { font-weight: 700; font-size: 14px; color: var(--ink); margin-bottom: 2px; }
+        .list-info p { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+        .list-info .price { font-weight: 700; font-size: 14px; color: var(--ink); }
+        .list-add { width: 32px; height: 32px; flex-shrink: 0; background: var(--y100); border: 1px solid var(--border-md); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--y600); line-height: 1; font-weight: 500; transition: background 0.15s, transform 0.15s; }
+        .list-item:hover .list-add { background: var(--y400); color: var(--dark); transform: scale(1.08); }
+
+        /* ═══ THIẾT KẾ LẠI STORY: PHONG CÁCH TẠP CHÍ (EDITORIAL) ═══ */
+        .story-wrapper {
+            position: relative; border-radius: var(--r-xl); padding: 32px 24px;
+            background: #140e00; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border: 1px solid rgba(245,203,30,0.1);
+        }
+        .story-wrapper::before {
+            content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px;
+            background: radial-gradient(circle, rgba(245,203,30,0.15) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none;
+        }
+        .story-wrapper::after {
+            content: '“'; position: absolute; bottom: -60px; right: 20px;
+            font-family: 'Lora', serif; font-size: 200px; color: rgba(255,255,255,0.03);
+            line-height: 1; pointer-events: none;
+        }
+        .story-header { margin-bottom: 28px; position: relative; z-index: 1; }
+        .story-header h2 { font-family: 'Lora', serif; font-size: 24px; font-weight: 700; color: var(--y300); margin-bottom: 6px; letter-spacing: -0.5px; }
+        .story-header p { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+        .story-item {
+            display: flex; align-items: center; justify-content: space-between; padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08); position: relative; z-index: 1;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .story-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .story-item-left { display: flex; align-items: center; gap: 16px; }
+        .story-num { font-family: 'Lora', serif; font-size: 16px; font-weight: 700; color: rgba(245,203,30,0.4); font-style: italic; transition: color 0.3s; }
+        .story-text h4 { font-family: 'Be Vietnam Pro', sans-serif; font-size: 16px; font-weight: 700; color: #fff; margin: 0 0 4px 0; transition: color 0.2s; letter-spacing: 0.5px; }
+        .story-text p { font-size: 12px; color: rgba(255,255,255,0.4); margin: 0; }
+
+        .story-btn {
+            padding: 6px 18px; border-radius: 50px; border: 1px solid rgba(245, 203, 30, 0.4);
+            color: var(--y400); font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+            text-transform: uppercase; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: transparent;
+        }
+        .story-item:hover .story-text h4 { color: var(--y400); }
+        .story-item:hover .story-num { color: var(--y400); }
+        .story-item:hover .story-btn { background: var(--y400); color: var(--dark); border-color: var(--y400); transform: translateX(-4px); box-shadow: 0 4px 10px rgba(245, 203, 30, 0.3); }
+
+        /* ═══ PAGE HEADER ═══ */
+        .page-top { padding: 24px 20px 0; margin-bottom: 18px; }
+        .page-top h2 { font-family: 'Lora', serif; font-size: 26px; font-weight: 700; color: var(--ink); letter-spacing: -0.5px; }
+        .page-top p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+        /* ═══ CART ITEMS ═══ */
+        .cart-list { padding: 0 16px; }
+        .cart-item { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--r-lg); padding: 14px; display: flex; align-items: center; gap: 14px; margin-bottom: 12px; position: relative; }
+        .cart-icon-wrap { position:relative; flex-shrink:0; }
+        .cart-icon { width: 58px; height: 58px; background: var(--y100); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 26px; border: 1px solid var(--border); }
+        .cart-qty-badge { position: absolute; top:-6px; left:-6px; background: var(--y500); color: var(--dark); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px; border: 2px solid var(--bg); }
+        .cart-info { flex:1; }
+        .cart-info h4 { font-weight:700; font-size:14px; color:var(--ink); margin-bottom:4px; }
+        .cart-info .cm { font-size:11px; color:var(--muted); margin-bottom:2px; }
+        .cart-info .ct { font-size:11px; color:var(--y600); font-weight:600; line-height:1.4; }
+        .cart-info .cnote { font-size:12px; color:var(--y700); font-style:italic; margin-top:4px; font-weight: 600; }
+        .cart-info .cp { font-weight:700; font-size:15px; color:var(--ink); margin-top:6px; display:block; }
+        .cart-rm { position:absolute; top:10px; right:12px; background:none; border:none; cursor:pointer; font-size:16px; color:rgba(0,0,0,0.2); transition:color 0.15s; }
+        .cart-rm:hover { color:#ef4444; }
+
+        .cart-empty { text-align:center; padding:40px 20px; background:var(--white); border:2px dashed var(--border-strong); border-radius:var(--r-xl); margin:0 16px; }
+        .cart-empty p { font-size:14px; font-weight:600; color:var(--muted); }
+
+        /* ═══ CHECKOUT ═══ */
+        .checkout { padding: 0 16px 20px; margin-top: 16px; }
+        .form-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--r-lg); padding: 18px; margin-bottom: 14px; }
+        .form-card h3 { font-weight: 700; font-size: 14px; color: var(--ink); margin-bottom: 14px; border-left: 3px solid var(--y400); padding-left: 10px; }
+        .fi { width: 100%; background: var(--y50); border: 1.5px solid var(--border-md); border-radius: var(--r-sm); padding: 12px 16px; font-size: 14px; font-family: 'Be Vietnam Pro', sans-serif; color: var(--ink); margin-bottom: 10px; outline: none; transition: border-color 0.15s, background 0.15s; }
+        .fi:focus { border-color: var(--y500); background: #fff; }
+        .fi::placeholder { color: var(--light-muted); }
+        textarea.fi { height: 80px; resize: none; }
+
+        .pay-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        .pay-btn { padding: 12px; border: 1.5px solid var(--border-md); border-radius: var(--r-sm); background: var(--y50); font-family: 'Be Vietnam Pro', sans-serif; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+        .pay-btn.sel { border-color: var(--y500); background: var(--y100); color: var(--y700); }
+
+        .qr-box { display:none; margin-top:14px; background:var(--y50); border:1px solid var(--border-md); border-radius:var(--r-md); padding:16px; flex-direction:column; align-items:center; }
+        .qr-box.show { display:flex; }
+        .qr-box p { font-size:12px; color:var(--muted); font-weight:600; margin-bottom:10px; }
+        .qr-ph { width:120px; height:120px; background:#fff; border:2px dashed var(--border-strong); border-radius:var(--r-sm); display:flex; align-items:center; justify-content:center; font-size:36px; margin-bottom:10px; }
+        .qr-lbl { background:#fff; border:1px solid var(--border); border-radius:8px; padding:8px 16px; text-align:center; }
+        .qr-lbl span { display:block; font-size:11px; color:var(--muted); margin-bottom:2px; }
+        .qr-lbl strong { font-size:13px; color:var(--y600); font-weight:700; }
+
+        .summary { background: linear-gradient(135deg, #2a2000, #1a1400); border-radius: var(--r-lg); padding: 20px; margin-bottom: 16px; border: 1px solid rgba(245,203,30,0.1); }
+        .sum-row { display:flex; justify-content:space-between; margin-bottom:10px; }
+        .sum-row span { font-size:13px; color:rgba(255,255,255,0.6); font-weight:500; }
+        .sum-row strong { font-size:13px; color:rgba(255,255,255,0.9); font-weight:600; }
+        .sum-hr { border:none; border-top:1px dashed rgba(255,255,255,0.15); margin:14px 0; }
+        .sum-total { display:flex; align-items:center; justify-content:space-between; }
+        .sum-total span { font-size:15px; color:rgba(255,255,255,0.7); font-weight:700; }
+        .sum-total strong { font-family:'Lora',serif; font-size:28px; color:var(--y300); }
+
+        .order-btn { width: 100%; background: var(--y400); color: var(--dark); border: none; border-radius: var(--r-md); padding: 18px; font-family: 'Be Vietnam Pro', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: background 0.15s, transform 0.12s; }
+        .order-btn:hover { background: var(--y500); }
+        .order-btn:active { transform: scale(0.98); }
+
+        /* ═══ SUCCESS ═══ */
+        .success-view { padding: 48px 24px 32px; display: flex; flex-direction: column; align-items: center; min-height: calc(100dvh - 70px); justify-content: center; }
+        .success-ring { width: 96px; height: 96px; background: var(--y100); border: 3px solid var(--y400); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
+        .success-ring svg { width:40px; height:40px; stroke:var(--y600); }
+        .success-view h2 { font-family:'Lora',serif; font-size:28px; color:var(--ink); text-align:center; margin-bottom:10px; line-height:1.2; }
+        .success-view > p { font-size:14px; color:var(--muted); text-align:center; line-height:1.65; margin-bottom:32px; padding:0 12px; }
+        .contact-card { width:100%; background:linear-gradient(135deg, #2a2000, #1a1400); border-radius:var(--r-lg); padding:20px; text-align:center; margin-bottom:16px; border: 1px solid rgba(245,203,30,0.1); }
+        .contact-card .lbl { font-size:10px; color:rgba(255,255,255,0.4); font-weight:700; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px; }
+        .contact-card a { font-family:'Lora',serif; font-size:28px; font-weight:700; color:var(--y300); text-decoration:none; display:block; }
+        .home-btn { width:100%; background:var(--y400); color:var(--dark); border:none; border-radius:var(--r-md); padding:18px; font-family:'Be Vietnam Pro',sans-serif; font-size:16px; font-weight:700; cursor:pointer; transition:background 0.15s; }
+        .home-btn:hover { background:var(--y500); }
+
+        /* ═══ BOTTOM NAV ═══ */
+        .nav { flex-shrink: 0; background: #fcf9ea; border-top: 1px solid var(--border-md); display: flex; justify-content: space-around; align-items: center; padding: 10px 0 24px; position: relative; z-index:30; }
+        .nav-btn { display:flex; flex-direction:column; align-items:center; gap:4px; background:none; border:none; cursor:pointer; color:rgba(0,0,0,0.25); padding:4px 22px; transition:color 0.18s; position:relative; }
+        .nav-btn.active { color:var(--y600); }
+        .nav-btn svg { width:24px; height:24px; }
+        .nav-btn span { font-family: 'Be Vietnam Pro', sans-serif; font-size:10px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; }
+        .badge { position:absolute; top:-2px; right:10px; background:var(--y500); color:var(--dark); font-size:10px; font-weight:700; min-width:18px; height:18px; border-radius:9px; padding:0 5px; display:none; align-items:center; justify-content:center; border:2px solid #fff; }
+        .badge.show { display:flex; }
+
+        /* ═══ OVERLAY + MODAL ═══ */
+        .overlay { position:fixed; inset:0; background:rgba(10,7,0,0.75); z-index:40; display:none; opacity:0; transition:opacity 0.25s; backdrop-filter:blur(5px); }
+        .overlay.show { display:block; }
+        .overlay.vis { opacity:1; }
+
+        .modal { position:fixed; bottom:0; left:50%; transform:translateX(-50%) translateY(100%); width:100%; max-width:430px; background:var(--bg); border-radius:28px 28px 0 0; z-index:50; height:90dvh; display:flex; flex-direction:column; transition:transform 0.35s cubic-bezier(0.2,0.8,0.2,1); box-shadow:0 -20px 60px rgba(0,0,0,0.3); }
+        .modal.open { transform:translateX(-50%) translateY(0); }
+        .modal-handle { width:40px; height:5px; background:var(--border-strong); border-radius:3px; margin:12px auto 0; flex-shrink:0; }
+        .modal-head { padding:16px 20px; border-bottom:1.5px solid var(--border); display:flex; align-items:flex-start; justify-content:space-between; flex-shrink:0; }
+        .modal-head h3 { font-family:'Lora',serif; font-size:22px; font-weight:700; color:var(--ink); letter-spacing:-0.3px; max-width:80%; line-height:1.25; }
+        .modal-head .bp { font-size:13px; color:var(--y700); font-weight:700; margin-top:6px; }
+        .modal-x { width:32px; height:32px; background:var(--y100); border:1px solid var(--border-md); border-radius:50%; cursor:pointer; font-size:14px; color:var(--ink); display:flex; align-items:center; justify-content:center; transition:background 0.15s; }
+        .modal-x:hover { background:var(--y200); }
+
+        .modal-body { flex:1; overflow-y:auto; padding:20px; }
+        .modal-body::-webkit-scrollbar { display:none; }
+        .opt-sec { margin-bottom:26px; }
+        .opt-ttl { font-weight:700; font-size:15px; color:var(--ink); margin-bottom:14px; border-left:3px solid var(--y400); padding-left:12px; }
+        .size-opt { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; background:#fff; border:1.5px solid var(--border); border-radius:var(--r-md); margin-bottom:10px; cursor:pointer; transition:border-color 0.15s, background 0.15s, transform 0.15s; }
+        .size-opt:active { transform:scale(0.98); }
+        .size-opt.sel { border-color:var(--y500); background:var(--y50); }
+        .size-opt-l { display:flex; align-items:center; gap:12px; }
+        .radio { width:20px; height:20px; border-radius:50%; border:2px solid #ccc; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:border-color 0.15s; }
+        .size-opt.sel .radio { border-color:var(--y500); }
+        .rdot { width:10px; height:10px; background:var(--y500); border-radius:50%; display:none; }
+        .size-opt.sel .rdot { display:block; }
+        .sname { font-weight:700; font-size:14px; color:var(--ink); display:block; margin-bottom:2px; }
+        .sdesc { font-size:12px; color:var(--muted); }
+        .sprice { font-size:13px; font-weight:700; color:var(--y600); display:block; text-align: right; }
+        .stotal { font-size:11px; color:var(--muted); text-align: right; }
+
+        .sweet-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        .sw-opt { padding:14px 12px; border:1.5px solid var(--border); border-radius:var(--r-md); background:#fff; cursor:pointer; transition:all 0.15s; text-align: center; }
+        .sw-opt:active { transform:scale(0.98); }
+        .sw-opt.sel { border-color:var(--y500); background:var(--y50); }
+        .sw-name { font-weight:700; font-size:13px; color:var(--ink); margin-bottom:4px; }
+        .sw-opt.sel .sw-name { color:var(--y700); }
+        .sw-desc { font-size:11px; color:var(--muted); line-height:1.4; }
+
+        .top-badge { display:inline-flex; background:rgba(201,154,0,0.1); border:1px solid rgba(201,154,0,0.2); color:var(--y700); font-size:11px; font-weight:700; padding:5px 12px; border-radius:50px; margin-bottom:14px; }
+        .top-grp { margin-bottom:14px; }
+        .top-grp-lbl { font-size:11px; font-weight:700; color:var(--muted); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:8px; }
+        .top-inner { background:#fff; border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden; }
+        .top-item { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; cursor:pointer; border-bottom:1px solid var(--border); transition:background 0.15s; }
+        .top-item:active { background: #f9f9f9; }
+        .top-item:last-child { border-bottom:none; }
+        .top-item:hover { background:var(--y50); }
+        .top-name { font-size:14px; font-weight:600; color:var(--ink); }
+        .top-item.sel .top-name { color:var(--y700); }
+        .chk { width:22px; height:22px; border:2px solid #ccc; border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.15s; }
+        .top-item.sel .chk { background:var(--y400); border-color:var(--y400); }
+        .chk svg { display:none; }
+        .top-item.sel .chk svg { display:block; }
+
+        .qty-row { display:flex; align-items:center; justify-content:space-between; background:#fff; border:1.5px solid var(--border); border-radius:var(--r-md); padding:10px 16px; }
+        .qty-lbl { font-size:14px; font-weight:600; color:var(--muted); }
+        .qty-ctrl { display:flex; align-items:center; gap:16px; }
+        .qbtn { width:40px; height:40px; border-radius:12px; border:none; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; font-family:'Be Vietnam Pro'; transition:transform 0.12s; }
+        .qbtn:active { transform:scale(0.88); }
+        .qminus { background:var(--y100); color:var(--ink); }
+        .qplus { background:var(--y400); color:var(--dark); font-weight: 500; }
+        .qdsp { font-size:18px; font-weight:700; color:var(--ink); min-width:24px; text-align:center; }
+
+        .modal-foot { padding:16px 20px 30px; border-top:1.5px solid var(--border); background:var(--bg); flex-shrink:0; }
+        .add-btn { width:100%; background:var(--dark); color:var(--y300); border:none; border-radius:var(--r-md); padding:18px 24px; font-family:'Be Vietnam Pro',sans-serif; font-size:16px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:space-between; transition:background 0.15s, transform 0.12s; }
+        .add-btn:hover { background:var(--dark2); }
+        .add-btn:active { transform:scale(0.98); }
+        .add-btn-total { color:#fff; font-size:16px; }
+
+        /* ═══ MODAL ĐỌC TRUYỆN RIÊNG ═══ */
+        #story-modal { height: 60dvh; }
+        #sm-title { font-family:'Lora',serif; font-size:22px; font-weight:700; color:var(--ink); line-height:1.3; }
+        #sm-body { font-size: 15px; color: var(--dark); line-height: 1.8; }
+
+        /* ═══ TOAST & LOADER ═══ */
+        #toast { position:fixed; top:-90px; left:50%; transform:translateX(-50%); width:calc(100% - 32px); max-width:398px; background:linear-gradient(135deg, #2a2000, #1a1400); border:1px solid rgba(255,255,255,0.1); border-radius:var(--r-md); padding:14px 16px; display:flex; align-items:center; gap:14px; z-index:100; transition:top 0.4s cubic-bezier(0.34,1.56,0.64,1); box-shadow:0 12px 40px rgba(0,0,0,0.3); }
+        #toast.show { top:20px; }
+        .t-icon { width:38px; height:38px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .t-icon.ok { background:rgba(245,203,30,0.15); }
+        .t-icon.err { background:rgba(239,68,68,0.15); }
+        #t-title { font-size:14px; font-weight:700; color:#fff; margin-bottom:4px; }
+        #t-msg { font-size:12px; color:rgba(255,255,255,0.6); font-weight:500; }
+        .t-bar { position:absolute; bottom:0; left:0; height:3px; border-radius:0 0 var(--r-md) var(--r-md); }
+        .t-bar.ok { background:var(--y400); }
+        .t-bar.err { background:#ef4444; }
+
+        #loader { position:fixed; inset:0; background:rgba(10,7,0,0.75); z-index:60; display:none; flex-direction:column; align-items:center; justify-content:center; backdrop-filter:blur(5px); }
+        #loader.show { display:flex; }
+        .l-ring { width:56px; height:56px; border:4px solid rgba(255,255,255,0.1); border-top-color:var(--y400); border-radius:50%; animation:spin 0.8s cubic-bezier(0.5, 0, 0.5, 1) infinite; margin-bottom:18px; }
+        @keyframes spin { to{transform:rotate(360deg)} }
+        .l-txt { font-size:16px; font-weight:700; color:#fff; margin-bottom:6px; }
+        .l-sub { font-size:12px; color:rgba(255,255,255,0.5); }
+    </style>
+</head>
+<body>
+
+<div id="toast">
+    <div class="t-icon" id="t-icon"></div>
+    <div><div id="t-title"></div><div id="t-msg"></div></div>
+    <div class="t-bar" id="t-bar"></div>
+</div>
+
+<div id="loader">
+    <div class="l-ring"></div>
+    <div class="l-txt" data-i18n="loader_txt">Đang xử lý đơn hàng...</div>
+    <div class="l-sub" data-i18n="loader_sub">Vui lòng không thoát ứng dụng</div>
+</div>
+
+<div class="app">
+
+    <header class="header">
+        <div class="logo" onclick="sv('home')">
+            <div class="smoke-wrap"><div class="smoke s1"></div><div class="smoke s2"></div><div class="smoke s3"></div></div>
+            <img src="logo.jpg" alt="Ty's Foods Logo">
+        </div>
+        
+        <div class="header-actions">
+            <div class="lang-toggle" id="lang-btn" onclick="toggleLang()">
+                <div class="lang-slider"></div>
+                <div class="lang-btn vi">VI</div>
+                <div class="lang-btn en">EN</div>
+            </div>
+            
+            <a href="https://facebook.com" target="_blank" class="fb-btn" style="padding: 6px;">
+                <div class="fb-icon"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
+            </a>
+        </div>
+    </header>
+
+    <main class="main scroll-area">
+
+        <div id="view-home" class="view active">
+            <div class="hero">
+                <div class="hero-card">
+                    <div class="hero-left">
+                        <div class="hero-badge" data-i18n="hero_badge">✦ Best Seller</div>
+                        <h1 class="hero-title"><span data-i18n="hero_title_1">Mùa Hè</span><br><em data-i18n="hero_title_2">Bùng Nổ</em></h1>
+                        <p class="hero-sub" data-i18n="hero_sub">Topping thả ga, không lo về giá</p>
+                    </div>
+                    <div class="hero-right">
+                        <div class="hero-emoji-ring">🍮</div>
+                        <div class="hero-pip">🍓</div>
+                        <div class="hero-pip2">🥥</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" style="margin-top:16px;">
+                <div class="sec-header">
+                    <h2 class="sec-title" data-i18n="hot_title">Món Đang Hot 🔥</h2>
+                </div>
+                <div class="hot-grid" id="hot-items"></div>
+            </div>
+
+            <div class="section">
+                <div class="sec-header">
+                    <h2 class="sec-title" data-i18n="menu_title">Menu Cổ Điển</h2>
+                    <button class="sec-btn" onclick="sv('menu')" data-i18n="view_all">Xem tất cả</button>
+                </div>
+                <div id="home-mini"></div>
+            </div>
+
+            <div class="section section-last">
+                <div class="story-wrapper">
+                    <div class="story-header">
+                        <h2 data-i18n="story_title">Câu chuyện TY FOODS</h2>
+                        <p data-i18n="story_subtitle">Hương vị truyền thống, phong cách hiện đại</p>
+                    </div>
+                    
+                    <div class="story-item" onclick="openStory('vision')">
+                        <div class="story-item-left">
+                            <span class="story-num">01</span>
+                            <div class="story-text">
+                                <h4 data-i18n="story_vision">Tầm nhìn</h4>
+                                <p data-i18n="story_vision_sub">Mục tiêu phát triển</p>
+                            </div>
+                        </div>
+                        <button class="story-btn" data-i18n="read_btn">Đọc</button>
+                    </div>
+
+                    <div class="story-item" onclick="openStory('mission')">
+                        <div class="story-item-left">
+                            <span class="story-num">02</span>
+                            <div class="story-text">
+                                <h4 data-i18n="story_mission">Sứ mệnh</h4>
+                                <p data-i18n="story_mission_sub">Giá trị cốt lõi</p>
+                            </div>
+                        </div>
+                        <button class="story-btn" data-i18n="read_btn">Đọc</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-menu" class="view">
+            <div class="page-top">
+                <h2 data-i18n="all_items">Tất cả món 📋</h2>
+                <p data-i18n="choose_fav">Chọn món bạn yêu thích</p>
+            </div>
+            <div style="padding:0 16px 24px;" id="full-menu"></div>
+        </div>
+
+        <div id="view-cart" class="view">
+            <div class="page-top">
+                <h2 data-i18n="checkout">Thanh toán 🛒</h2>
+                <p data-i18n="check_order">Kiểm tra và đặt hàng</p>
+            </div>
+            <div id="cart-area"></div>
+        </div>
+
+        <div id="view-success" class="view">
+            <div class="success-view">
+                <div class="success-ring">
+                    <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                </div>
+                <h2 data-i18n="success_title">Shop đã nhận<br>đơn hàng!</h2>
+                <p data-i18n="success_desc">Món ngon đang được chuẩn bị. Shipper sẽ gọi cho bạn khi tới nơi nhé.</p>
+                <div class="contact-card">
+                    <div class="lbl" data-i18n="contact_query">Thắc mắc đơn hàng liên hệ</div>
+                    <a href="tel:0325591025">0325 591 025</a>
+                </div>
+                <button class="home-btn" onclick="sv('home')" data-i18n="back_home">Quay về trang chủ</button>
+            </div>
+        </div>
+
+    </main>
+
+    <nav class="nav" id="bot-nav">
+        <button class="nav-btn active" id="nav-home" onclick="sv('home')"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span data-i18n="nav_home">Home</span></button>
+        <button class="nav-btn" id="nav-menu" onclick="sv('menu')"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg><span data-i18n="nav_menu">Menu</span></button>
+        <button class="nav-btn" id="nav-cart" onclick="sv('cart')"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.3 2.3c-.6.6-.2 1.7.7 1.7H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg><div class="badge" id="badge">0</div><span data-i18n="nav_cart">Giỏ</span></button>
+    </nav>
+
+    <div class="overlay" id="overlay" onclick="closeAllModals()"></div>
+
+    <div class="modal" id="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-head"><div><h3 id="m-title">Tên Món</h3><div class="bp" id="m-price"></div></div><button class="modal-x" onclick="closeModal()">✕</button></div>
+        <div class="modal-body scroll-area" id="m-body"></div>
+        <div class="modal-foot">
+            <button class="add-btn" onclick="addToCart()"><span data-i18n="modal_add_btn">Thêm vào giỏ hàng</span><span class="add-btn-total" id="m-total">0đ</span></button>
+        </div>
+    </div>
+
+    <div class="modal" id="story-modal">
+        <div class="modal-handle"></div>
+        <div class="modal-head"><h3 id="sm-title" style="max-width: 100%;">Tiêu đề</h3><button class="modal-x" onclick="closeStory()">✕</button></div>
+        <div class="modal-body scroll-area"><div id="sm-body"></div></div>
+    </div>
+
+</div>
+
+<script>
+// Hàm xử lý Icon linh hoạt: Nếu là ảnh thì tạo thẻ IMG, nếu là emoji thì giữ nguyên để Twemoji xử lý
+function getIcon(iconPath, name) {
+    if (!iconPath) return "";
+    const isImage = /\.(jpg|jpeg|png|webp|avif|gif)$/i.test(iconPath);
+    return isImage ? `<img src="${iconPath}" alt="${name}">` : iconPath;
+}
+
+const i18n = {
+    vi: {
+        hero_badge: "✦ Best Seller",
+        hero_title_1: "Mùa Hè",
+        hero_title_2: "Bùng Nổ",
+        hero_sub: "Topping thả ga, không lo về giá",
+        hot_title: "Món Đang Hot 🔥",
+        menu_title: "Menu Cổ Điển",
+        view_all: "Xem tất cả",
+        story_title: "Câu chuyện TY FOODS",
+        story_subtitle: "Hương vị truyền thống, phong cách hiện đại",
+        story_vision: "Tầm nhìn",
+        story_vision_sub: "Mục tiêu phát triển",
+        story_vision_desc: "Tầm nhìn của TY FOODS là trở thành chuỗi cửa hàng tráng miệng được yêu thích nhất toàn quốc, đem lại trải nghiệm ẩm thực truyền thống kết hợp hiện đại siêu cuốn hút.",
+        story_mission: "Sứ mệnh",
+        story_mission_sub: "Giá trị cốt lõi",
+        story_mission_desc: "Sứ mệnh của chúng mình là luôn mang đến cho bạn những nguyên liệu tươi sạch nhất, giữ gìn trọn vẹn sự tinh túy của bát chè Việt Nam.",
+        read_btn: "Đọc",
+        all_items: "Tất cả món 📋",
+        choose_fav: "Chọn món bạn yêu thích",
+        checkout: "Thanh toán 🛒",
+        check_order: "Kiểm tra và đặt hàng",
+        cart_empty: "Giỏ hàng đang trống!",
+        deliv_info: "📍 Thông tin nhận hàng",
+        receiver_name: "Tên người nhận",
+        phone_num: "Số điện thoại",
+        address: "Địa chỉ giao hàng (Số nhà, đường...)",
+        payment: "💳 Thanh toán",
+        cash: "Tiền mặt",
+        bank: "Chuyển khoản",
+        scan_qr: "Quét mã QR để thanh toán",
+        transfer_content: "Nội dung chuyển khoản",
+        subtotal: "Tạm tính",
+        deliv_fee: "Phí giao hàng",
+        total: "Tổng cộng",
+        order_btn_cash: "Đặt hàng (Tiền mặt)",
+        order_btn_bank: "Đã chuyển khoản & Đặt hàng",
+        success_title: "Shop đã nhận<br>đơn hàng!",
+        success_desc: "Món ngon đang được chuẩn bị. Shipper sẽ gọi cho bạn khi tới nơi nhé.",
+        contact_query: "Thắc mắc đơn hàng liên hệ",
+        back_home: "Quay về trang chủ",
+        nav_home: "Home",
+        nav_menu: "Menu",
+        nav_cart: "Giỏ hàng",
+        loader_txt: "Đang xử lý đơn hàng...",
+        loader_sub: "Vui lòng không thoát ứng dụng",
+        modal_og_price: "Giá gốc: ",
+        modal_sec_1: "1. Kích cỡ (Size)",
+        modal_sec_temp: "2. Chọn Nhiệt độ",
+        temp_ice: "Lạnh (Thêm đá)",
+        temp_hot: "Ăn Nóng",
+        modal_sec_2: "3. Mức đường (Sweetness)",
+        modal_sec_3: "4. Topping gây nghiện",
+        modal_sec_note: "5. Ghi chú thêm",
+        note_placeholder: "Vd: ít đá, ngọt vừa...",
+        modal_top_badge: "Đồng giá 3.000đ / món",
+        modal_sec_4: "6. Số lượng",
+        modal_qty: "Số lượng phần",
+        modal_add_btn: "Thêm vào giỏ",
+        modal_total_txt: "Tổng",
+        modal_free: "Miễn phí",
+        toast_err_title: "Chưa xong bạn ơi!",
+        toast_err_msg: "Vui lòng nhập đầy đủ thông tin giao hàng.",
+        toast_ok_title: "Đã thêm vào giỏ!",
+        toast_ok_msg: "đang đợi bạn thanh toán."
+    },
+    en: {
+        hero_badge: "✦ Best Seller",
+        hero_title_1: "Summer",
+        hero_title_2: "Vibes",
+        hero_sub: "Unlimited toppings, great prices",
+        hot_title: "Trending Now 🔥",
+        menu_title: "Classic Menu",
+        view_all: "View all",
+        story_title: "TY FOODS Story",
+        story_subtitle: "Traditional taste, modern style",
+        story_vision: "Our Vision",
+        story_vision_sub: "Development goals",
+        story_vision_desc: "TY FOODS' vision is to become the most beloved dessert chain nationwide, providing a fascinating blend of traditional and modern culinary experiences.",
+        story_mission: "Our Mission",
+        story_mission_sub: "Core values",
+        story_mission_desc: "Our mission is to always provide you with the freshest ingredients, preserving the true essence of Vietnamese sweet soup.",
+        read_btn: "Read",
+        all_items: "Full Menu 📋",
+        choose_fav: "Choose your favorites",
+        checkout: "Checkout 🛒",
+        check_order: "Review and place order",
+        cart_empty: "Your cart is empty!",
+        deliv_info: "📍 Delivery Info",
+        receiver_name: "Receiver Name",
+        phone_num: "Phone Number",
+        address: "Delivery Address (House no., street...)",
+        payment: "💳 Payment Method",
+        cash: "Cash",
+        bank: "Bank Transfer",
+        scan_qr: "Scan QR code to pay",
+        transfer_content: "Transfer Note",
+        subtotal: "Subtotal",
+        deliv_fee: "Delivery Fee",
+        total: "Total",
+        order_btn_cash: "Place Order (Cash)",
+        order_btn_bank: "Paid & Place Order",
+        success_title: "Order<br>Received!",
+        success_desc: "Your delicious treats are being prepared. The driver will call you upon arrival.",
+        contact_query: "Order inquiries contact",
+        back_home: "Back to Home",
+        nav_home: "Home",
+        nav_menu: "Menu",
+        nav_cart: "Cart",
+        loader_txt: "Processing order...",
+        loader_sub: "Please do not close the app",
+        modal_og_price: "Original price: ",
+        modal_sec_1: "1. Size Options",
+        modal_sec_temp: "2. Temperature",
+        temp_ice: "Cold (With Ice)",
+        temp_hot: "Hot",
+        modal_sec_2: "3. Sweetness Level",
+        modal_sec_3: "4. Add-on Toppings",
+        modal_sec_note: "5. Special Instructions",
+        note_placeholder: "E.g., less ice, extra spoon...",
+        modal_top_badge: "Flat rate 3,000đ / item",
+        modal_sec_4: "6. Quantity",
+        modal_qty: "Number of portions",
+        modal_add_btn: "Add to Cart",
+        modal_total_txt: "Total",
+        modal_free: "Free",
+        toast_err_title: "Missing info!",
+        toast_err_msg: "Please fill in all delivery information.",
+        toast_ok_title: "Added to cart!",
+        toast_ok_msg: "is waiting for checkout."
+    }
+};
+
+let lang = 'vi';
+function t(key) { return i18n[lang][key] || key; }
+
+function updateStaticUI() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(i18n[lang][key]) el.innerHTML = i18n[lang][key];
+        if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){ el.placeholder = i18n[lang][key]; }
+    });
+}
+
+function toggleLang() {
+    lang = lang === 'vi' ? 'en' : 'vi';
+    const btn = document.getElementById('lang-btn');
+    if(lang === 'en') btn.classList.add('en'); else btn.classList.remove('en');
+    
+    updateStaticUI();
+    init();
+    if(cur) {
+        cur = PRODUCTS.find(p => p.id === cur.id);
+        document.getElementById('m-title').textContent = lang === 'vi' ? cur.name : cur.nameEn;
+        document.getElementById('m-price').textContent = t('modal_og_price') + fmt(cur.price);
+        const noteEl = document.getElementById('m-note');
+        if(noteEl) ms.note = noteEl.value; 
+        renderModal();
+    }
+    renderCart();
+}
+
+/* ĐÃ CẬP NHẬT LẠI ICON CHO CHUẨN XÁC VỚI MÓN ĂN */
+const PRODUCTS=[
+    {id:1,name:"Chè Đậu Xanh Đánh", nameEn:"Mung Bean Sweet Soup", desc:"Mịn màng, thanh mát", descEn:"Smooth & refreshing", price:20000,icon:"🥣",isHot:true},
+    {id:2,name:"Chè Đậu Đỏ Ghiền", nameEn:"Red Bean Delight", desc:"Bùi béo, may mắn", descEn:"Nutty & lucky", price:20000,icon:"🫘",isHot:true},
+    {id:3,name:"Chè Khoai Môn Dẻo", nameEn:"Taro Sweet Soup", desc:"Thơm ngậy cốt dừa", descEn:"Rich coconut milk", price:20000,icon:"🍠",isHot:true},
+    {id:4,name:"Chè Bưởi An Giang", nameEn:"Pomelo Sweet Soup", desc:"Giòn sần sật, không đắng", descEn:"Crunchy, not bitter", price:20000,icon:"🍈",isHot:false},
+    {id:5,name:"Chè Hạt Sen Đường Phèn", nameEn:"Lotus Seed & Rock Sugar", desc:"Thanh tao, giải nhiệt", descEn:"Elegant & cooling", price:20000,icon:"🪷",isHot:false},
+    {id:6,name:"Chè Yến Mạch Hạt Chia", nameEn:"Oats & Chia Seed", desc:"Healthy, dáng xinh", descEn:"Healthy & fit", price:20000,icon:"🌾",isHot:false},
+    {id:7,name:"Chè Thập Cẩm Truyền Thống", nameEn:"Traditional Mix Dessert", desc:"Đủ vị sắc màu", descEn:"Colorful & flavorful", price:20000,icon:"🍧",isHot:false},
+    {id:8,name:"Chè Trôi Nước Viên Tròn", nameEn:"Sticky Rice Balls", desc:"Dẻo thơm gừng ấm", descEn:"Chewy with warm ginger", price:20000,icon:"🍡",isHot:false}
+];
+const SIZES=[
+    {id:'S',name:"Size S — Nhỏ nhắn", nameEn:"Size S — Small", desc:"Vừa đủ tráng miệng", descEn:"Just for dessert", price:0},
+    {id:'M',name:"Size M — Tiêu chuẩn", nameEn:"Size M — Standard", desc:"Cực phẩm ăn vặt", descEn:"Perfect snack", price:5000},
+    {id:'L',name:"Size L — Khổng lồ", nameEn:"Size L — Giant", desc:"Ăn no nê / Chia sẻ", descEn:"For sharing", price:10000},
+];
+const SWEETNESS=[
+    {id:'100',name:"Ngọt nhiều", nameEn:"Extra Sweet", desc:"Chuẩn vị truyền thống", descEn:"Traditional sweetness"},
+    {id:'70', name:"Ngọt vừa", nameEn:"Normal Sweet", desc:"Mức mặc định của quán", descEn:"Standard level"},
+    {id:'30', name:"Ít ngọt", nameEn:"Less Sweet", desc:"Thanh nhẹ, dễ ăn", descEn:"Light & easy"},
+    {id:'0',  name:"Không thêm đường", nameEn:"No Sugar", desc:"Vị tự nhiên nguyên liệu", descEn:"Natural ingredients taste"},
+];
+const TOPPINGS=[
+    {group:"Nhóm Giòn & Dai", groupEn:"Crunchy & Chewy", items:[
+        {id:'t1',name:"Trân châu trắng giòn", nameEn:"White Boba"},
+        {id:'t2',name:"Thạch dừa sợi", nameEn:"Coconut Jelly Strips"},
+        {id:'t3',name:"Thạch lá dứa thơm", nameEn:"Pandan Jelly"},
+        {id:'t4',name:"Đậu phộng rang thơm phức", nameEn:"Roasted Peanuts"},
+    ]},
+    {group:"Nhóm Béo & Ngậy", groupEn:"Rich & Creamy", items:[
+        {id:'t5',name:"Nước cốt dừa đặc sánh", nameEn:"Thick Coconut Milk"},
+        {id:'t6',name:"Dừa sợi tươi", nameEn:"Fresh Coconut Strips"},
+        {id:'t7',name:"Dừa khô Bến Tre", nameEn:"Dried Coconut"},
+    ]},
+    {group:"Nhóm Siêu Thực Phẩm (Healthy)", groupEn:"Superfoods (Healthy)", items:[
+        {id:'t8',name:"Hạt chia Úc", nameEn:"Chia Seeds"},
+        {id:'t9',name:"Ngũ cốc giòn", nameEn:"Crunchy Cereal"},
+    ]},
+];
+
+let cart=[], cur=null, ms={size:'M',sweet:'70',temp:'ice',tops:{},qty:1,note:''}, tTimer;
+const fmt=n=>n.toLocaleString('vi-VN')+'đ';
+
+function toast(type,title,msg){
+    clearTimeout(tTimer);
+    const el=document.getElementById('toast');
+    const ic=document.getElementById('t-icon');
+    const br=document.getElementById('t-bar');
+    document.getElementById('t-title').textContent=title;
+    document.getElementById('t-msg').textContent=msg;
+    ic.className='t-icon '+type;
+    br.className='t-bar '+type;
+    ic.innerHTML=type==='ok'
+        ?`<svg width="20" height="20" fill="none" stroke="#e8b800" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`
+        :`<svg width="20" height="20" fill="none" stroke="#ef4444" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>`;
+    br.style.transition='none'; br.style.width='100%';
+    el.classList.add('show');
+    setTimeout(()=>{br.style.transition='width 3s linear'; br.style.width='0%';},50);
+    tTimer=setTimeout(()=>el.classList.remove('show'),3200);
+    if(navigator.vibrate) navigator.vibrate(40);
+}
+
+function init(){
+    const hot=PRODUCTS.filter(p=>p.isHot).slice(0,3);
+    document.getElementById('hot-items').innerHTML=`
+        <div class="hot-featured" onclick='openModal(${JSON.stringify(hot[0])})'>
+            <div class="hot-featured-icon">${getIcon(hot[0].icon, hot[0].name)}</div>
+            <div class="hot-featured-body">
+                <h3>${lang === 'vi' ? hot[0].name : hot[0].nameEn}</h3>
+                <p>${lang === 'vi' ? hot[0].desc : hot[0].descEn}</p>
+                <div class="hot-featured-price">${fmt(hot[0].price)}</div>
+            </div>
+            <div class="hot-featured-add">+</div>
+        </div>
+        <div class="hot-card" onclick='openModal(${JSON.stringify(hot[1])})'>
+            <div class="hot-card-icon">${getIcon(hot[1].icon, hot[1].name)}</div>
+            <h3>${lang === 'vi' ? hot[1].name : hot[1].nameEn}</h3>
+            <div class="hot-card-price">${fmt(hot[1].price)}</div>
+        </div>
+        <div class="hot-card" onclick='openModal(${JSON.stringify(hot[2])})'>
+            <div class="hot-card-icon">${getIcon(hot[2].icon, hot[2].name)}</div>
+            <h3>${lang === 'vi' ? hot[2].name : hot[2].nameEn}</h3>
+            <div class="hot-card-price">${fmt(hot[2].price)}</div>
+        </div>
+    `;
+    const lHtml=p=>`
+        <div class="list-item" onclick='openModal(${JSON.stringify(p)})'>
+            <div class="list-icon">${getIcon(p.icon, p.name)}</div>
+            <div class="list-info">
+                <h3>${lang === 'vi' ? p.name : p.nameEn}</h3>
+                <p>${lang === 'vi' ? p.desc : p.descEn}</p>
+                <span class="price">${fmt(p.price)}</span>
+            </div>
+            <div class="list-add">+</div>
+        </div>`;
+    document.getElementById('home-mini').innerHTML=PRODUCTS.slice(3,5).map(lHtml).join('');
+    document.getElementById('full-menu').innerHTML=PRODUCTS.map(lHtml).join('');
+    
+    // Yêu cầu twemoji chuyển đổi các text emoji thành hình ảnh đẹp
+    if(typeof twemoji !== 'undefined') twemoji.parse(document.body);
+}
+
+function sv(v){
+    ['home','menu','cart','success'].forEach(id=>{
+        document.getElementById('view-'+id).className='view'+(id===v?' active':'');
+    });
+    ['home','menu','cart'].forEach(id=>{
+        const el=document.getElementById('nav-'+id);
+        if(el) el.className='nav-btn'+(id===v?' active':'');
+    });
+    document.getElementById('bot-nav').style.display=v==='success'?'none':'flex';
+    if(v==='cart') renderCart();
+    document.querySelector('.main').scrollTop=0;
+}
+
+function openModal(p){
+    cur=p; ms={size:'M', sweet:'70', temp:'ice', tops:{}, qty:1, note:''};
+    document.getElementById('m-title').textContent = lang === 'vi' ? p.name : p.nameEn;
+    document.getElementById('m-price').textContent = t('modal_og_price') + fmt(p.price);
+    renderModal(); updateTotal();
+    const ov=document.getElementById('overlay');
+    const md=document.getElementById('modal');
+    ov.classList.add('show'); setTimeout(()=>ov.classList.add('vis'),10);
+    md.classList.add('open');
+}
+
+function closeModal(){
+    const ov=document.getElementById('overlay');
+    const md=document.getElementById('modal');
+    md.classList.remove('open');
+    ov.classList.remove('vis');
+    setTimeout(()=>ov.classList.remove('show'),300);
+}
+
+function openStory(type){
+    const sm = document.getElementById('story-modal');
+    const ov = document.getElementById('overlay');
+    const title = document.getElementById('sm-title');
+    const body = document.getElementById('sm-body');
+
+    if(type === 'vision') {
+        title.textContent = t('story_vision');
+        body.innerHTML = `<p>${t('story_vision_desc')}</p>`;
+    } else {
+        title.textContent = t('story_mission');
+        body.innerHTML = `<p>${t('story_mission_desc')}</p>`;
+    }
+
+    ov.classList.add('show'); setTimeout(()=>ov.classList.add('vis'),10);
+    sm.classList.add('open');
+}
+
+function closeStory(){
+    const sm = document.getElementById('story-modal');
+    const ov = document.getElementById('overlay');
+    sm.classList.remove('open');
+    ov.classList.remove('vis');
+    setTimeout(()=>ov.classList.remove('show'),300);
+}
+
+function closeAllModals() { closeModal(); closeStory(); }
+
+function renderModal(){
+    const noteEl = document.getElementById('m-note');
+    if(noteEl) ms.note = noteEl.value;
+
+    const sz=SIZES.map(s=>`
+        <div class="size-opt ${ms.size===s.id?'sel':''}" onclick="chgSize('${s.id}')">
+            <div class="size-opt-l">
+                <div class="radio"><div class="rdot"></div></div>
+                <div><span class="sname">${lang==='vi'?s.name:s.nameEn}</span><span class="sdesc">${lang==='vi'?s.desc:s.descEn}</span></div>
+            </div>
+            <div>
+                <span class="sprice">${s.price>0?'+'+fmt(s.price):t('modal_free')}</span>
+                <span class="stotal">${t('modal_total_txt')} ${fmt(cur.price+s.price)}</span>
+            </div>
+        </div>`).join('');
+
+    const sw=`<div class="sweet-grid">${SWEETNESS.map(s=>`
+        <div class="sw-opt ${ms.sweet===s.id?'sel':''}" onclick="chgSweet('${s.id}')">
+            <div class="sw-name">${lang==='vi'?s.name:s.nameEn}</div>
+            <div class="sw-desc">${lang==='vi'?s.desc:s.descEn}</div>
+        </div>`).join('')}</div>`;
+
+    const tp=TOPPINGS.map(g=>`
+        <div class="top-grp">
+            <div class="top-grp-lbl">${lang==='vi'?g.group:g.groupEn}</div>
+            <div class="top-inner">
+                ${g.items.map(t_item=>`
+                    <div class="top-item ${ms.tops[t_item.id]?'sel':''}" onclick="togTop('${t_item.id}')">
+                        <span class="top-name">${lang==='vi'?t_item.name:t_item.nameEn}</span>
+                        <div class="chk">
+                            <svg width="14" height="14" fill="none" stroke="#1a1400" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                    </div>`).join('')}
+            </div>
+        </div>`).join('');
+
+    document.getElementById('m-body').innerHTML=`
+        <div class="opt-sec"><div class="opt-ttl">${t('modal_sec_1')}</div>${sz}</div>
+        <div class="opt-sec"><div class="opt-ttl">${t('modal_sec_temp')}</div>
+            <div class="sweet-grid">
+                <div class="sw-opt ${ms.temp==='ice'?'sel':''}" onclick="chgTemp('ice')"><div class="sw-name">${t('temp_ice')}</div></div>
+                <div class="sw-opt ${ms.temp==='hot'?'sel':''}" onclick="chgTemp('hot')"><div class="sw-name">${t('temp_hot')}</div></div>
+            </div>
+        </div>
+        <div class="opt-sec"><div class="opt-ttl">${t('modal_sec_2')}</div>${sw}</div>
+        <div class="opt-sec"><div class="opt-ttl">${t('modal_sec_3')}</div><div class="top-badge">${t('modal_top_badge')}</div>${tp}</div>
+        <div class="opt-sec"><div class="opt-ttl">${t('modal_sec_note')}</div>
+            <textarea class="fi note-input" id="m-note" style="height: 60px; margin-bottom: 0;" placeholder="${t('note_placeholder')}" onkeyup="ms.note=this.value" onchange="ms.note=this.value">${ms.note}</textarea>
+        </div>
+        <div class="opt-sec"><div class="opt-ttl">${t('modal_sec_4')}</div>
+            <div class="qty-row"><span class="qty-lbl">${t('modal_qty')}</span>
+                <div class="qty-ctrl">
+                    <button class="qbtn qminus" onclick="chgQty(-1)">−</button>
+                    <span class="qdsp" id="qdsp">${ms.qty}</span>
+                    <button class="qbtn qplus" onclick="chgQty(1)">+</button>
+                </div>
+            </div>
+        </div>`;
+}
+
+function chgSize(id){ms.size=id;renderModal();updateTotal();}
+function chgSweet(id){ms.sweet=id;renderModal();}
+function chgTemp(id){ms.temp=id;renderModal();}
+function togTop(id){ms.tops[id]=!ms.tops[id];renderModal();updateTotal();}
+function chgQty(d){if(ms.qty+d>=1){ms.qty+=d;const el=document.getElementById('qdsp');if(el)el.textContent=ms.qty;updateTotal();}}
+
+function calcTotal(){
+    let u=cur.price;
+    const s=SIZES.find(x=>x.id===ms.size); if(s) u+=s.price;
+    u+=Object.values(ms.tops).filter(Boolean).length*3000;
+    return u*ms.qty;
+}
+function updateTotal(){document.getElementById('m-total').textContent=fmt(calcTotal());}
+
+function addToCart(){
+    const noteEl = document.getElementById('m-note');
+    if(noteEl) ms.note = noteEl.value.trim();
+
+    let topIds = Object.keys(ms.tops).filter(k => ms.tops[k]);
+    cart.push({ id: Date.now(), pId: cur.id, icon: cur.icon, sizeId: ms.size, sweetId: ms.sweet, tempId: ms.temp, note: ms.note, topIds: topIds, qty: ms.qty, total: calcTotal() });
+    
+    updateBadge(); closeModal();
+    const nameStr = lang === 'vi' ? cur.name : cur.nameEn;
+    toast('ok', t('toast_ok_title'), `${nameStr} (x${ms.qty}) ${t('toast_ok_msg')}`);
+}
+
+function updateBadge(){
+    const b=document.getElementById('badge');
+    const n=cart.reduce((s,i)=>s+i.qty,0);
+    b.textContent=n; b.className='badge'+(n>0?' show':'');
+}
+
+let payM='cash';
+function renderCart(){
+    const area=document.getElementById('cart-area');
+    if(!cart.length){
+        area.innerHTML=`<div class="cart-empty"><p>${t('cart_empty')}</p></div>`;
+        return;
+    }
+    let sub=0;
+    
+    const items=cart.map((item,i)=>{
+        sub+=item.total;
+        const pInfo = PRODUCTS.find(p => p.id === item.pId);
+        const sInfo = SIZES.find(s => s.id === item.sizeId);
+        const swInfo = SWEETNESS.find(sw => sw.id === item.sweetId);
+        
+        const pName = lang === 'vi' ? pInfo.name : pInfo.nameEn;
+        const sName = lang === 'vi' ? sInfo.name.split(' — ')[0] : sInfo.nameEn.split(' — ')[0];
+        const swName = lang === 'vi' ? swInfo.name : swInfo.nameEn;
+        const tempName = item.tempId === 'ice' ? t('temp_ice') : t('temp_hot');
+        
+        let tNames = [];
+        item.topIds.forEach(tid => { TOPPINGS.forEach(g => g.items.forEach(t => { if(t.id === tid) tNames.push(lang === 'vi' ? t.name : t.nameEn); })); });
+        const topsStr = tNames.length ? tNames.join(', ') : (lang === 'vi' ? 'Không thêm topping' : 'No add-ons');
+        const noteHtml = item.note ? `<div class="cnote">📝 ${item.note}</div>` : '';
+        
+        const iconDisplay = getIcon(item.icon, pName);
+
+        return `
+        <div class="cart-item">
+            <div class="cart-icon-wrap">
+                <div class="cart-icon">${iconDisplay}</div>
+                <div class="cart-qty-badge">x${item.qty}</div>
+            </div>
+            <div class="cart-info">
+                <h4>${pName}</h4>
+                <div class="cm">${sName} · ${swName} · ${tempName}</div>
+                <div class="ct">${topsStr}</div>
+                ${noteHtml}
+                <span class="cp">${fmt(item.total)}</span>
+            </div>
+            <button class="cart-rm" onclick="rmItem(${i})">✕</button>
+        </div>`;
+    }).join('');
+
+    area.innerHTML=`
+        <div class="cart-list">${items}</div>
+        <div class="checkout">
+            <div class="form-card">
+                <h3>${t('deliv_info')}</h3>
+                <input class="fi" id="cn" data-i18n="receiver_name" placeholder="${t('receiver_name')}" type="text">
+                <input class="fi" id="cp" data-i18n="phone_num" placeholder="${t('phone_num')}" type="tel">
+                <textarea class="fi" id="ca" data-i18n="address" placeholder="${t('address')}"></textarea>
+            </div>
+            <div class="form-card">
+                <h3>${t('payment')}</h3>
+                <div class="pay-row">
+                    <button class="pay-btn ${payM==='cash'?'sel':''}" id="pb-cash" onclick="setPay('cash')">${t('cash')}</button>
+                    <button class="pay-btn ${payM==='bank'?'sel':''}" id="pb-bank" onclick="setPay('bank')">${t('bank')}</button>
+                </div>
+                <div class="qr-box ${payM==='bank'?'show':''}" id="qr-box">
+                    <p>${t('scan_qr')}</p>
+                    <div class="qr-ph">📱</div>
+                    <div class="qr-lbl">
+                        <span>${t('transfer_content')}</span>
+                        <strong>TYFOODS <span id="qr-ph-num"></span></strong>
+                    </div>
+                </div>
+            </div>
+            <div class="summary">
+                <div class="sum-row"><span>${t('subtotal')}</span><strong>${fmt(sub)}</strong></div>
+                <div class="sum-row"><span>${t('deliv_fee')}</span><strong>15.000đ</strong></div>
+                <hr class="sum-hr">
+                <div class="sum-total"><span>${t('total')}</span><strong>${fmt(sub+15000)}</strong></div>
+            </div>
+            <button class="order-btn" id="ob" onclick="processOrder()">${payM==='cash'?t('order_btn_cash'):t('order_btn_bank')}</button>
+        </div>`;
+
+    document.getElementById('cp').addEventListener('input',function(){
+        const el=document.getElementById('qr-ph-num');
+        if(el) el.textContent=this.value?'- '+this.value:'';
+    });
+    
+    // Yêu cầu twemoji chuyển đổi các text emoji thành hình ảnh đẹp trong giỏ hàng
+    if(typeof twemoji !== 'undefined') twemoji.parse(area);
+}
+
+function rmItem(i){cart.splice(i,1);updateBadge();renderCart();}
+
+function setPay(m){
+    payM=m;
+    document.getElementById('pb-cash').className='pay-btn'+(m==='cash'?' sel':'');
+    document.getElementById('pb-bank').className='pay-btn'+(m==='bank'?' sel':'');
+    const qr=document.getElementById('qr-box');
+    if(qr) qr.className='qr-box'+(m==='bank'?' show':'');
+    const ob=document.getElementById('ob');
+    if(ob) ob.textContent = m==='cash' ? t('order_btn_cash') : t('order_btn_bank');
+}
+
+function processOrder(){
+    const n=document.getElementById('cn').value.trim();
+    const p=document.getElementById('cp').value.trim();
+    const a=document.getElementById('ca').value.trim();
+    if(!n||!p||!a){toast('err', t('toast_err_title'), t('toast_err_msg'));return;}
+    const ld=document.getElementById('loader');
+    ld.classList.add('show');
+    setTimeout(()=>{ld.classList.remove('show');cart=[];updateBadge();sv('success');},2000);
+}
+
+updateStaticUI();
+init();
+</script>
+</body>
+</html>
