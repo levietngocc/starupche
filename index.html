@@ -34,127 +34,50 @@
             --r-xl: 30px;
         }
 
-        body {
-            font-family: 'Be Vietnam Pro', sans-serif;
-            background: #f5eedc; 
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .app {
-            width: 100%;
-            max-width: 430px;
-            background: var(--bg);
-            height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 80px rgba(0,0,0,0.15);
-        }
-
+        body { font-family: 'Be Vietnam Pro', sans-serif; background: #f5eedc; display: flex; justify-content: center; min-height: 100vh; }
+        .app { width: 100%; max-width: 430px; background: var(--bg); height: 100dvh; display: flex; flex-direction: column; position: relative; overflow: hidden; box-shadow: 0 0 80px rgba(0,0,0,0.15); }
         .scroll-area { -ms-overflow-style:none; scrollbar-width:none; overflow-y: auto; }
         .scroll-area::-webkit-scrollbar { display:none; }
-        
-        /* Chỉnh lại Emoji của Twemoji cho vừa vặn */
+
         img.emoji { height: 1em; width: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; }
 
-        /* ═══ ĐOẠN CSS DÀNH CHO ICON HÌNH ẢNH TRONG TƯƠNG LAI ═══ */
+        /* ═══ CSS DÀNH CHO ICON BẰNG HÌNH ẢNH TRONG TƯƠNG LAI ═══ */
         .hot-featured-icon, .hot-card-icon, .list-icon, .cart-icon {
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden; 
-            background: var(--y100); 
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            transition: transform 0.3s ease;
+            display: flex !important; align-items: center; justify-content: center; overflow: hidden; 
+            background: var(--y100); border: 1px solid var(--border); border-radius: 14px; transition: transform 0.3s ease;
         }
-        /* Khi thay icon bằng thẻ <img> */
-        .hot-featured-icon img:not(.emoji), 
-        .hot-card-icon img:not(.emoji), 
-        .list-icon img:not(.emoji), 
-        .cart-icon img:not(.emoji) {
-            width: 90% !important; 
-            height: 90% !important; 
-            object-fit: contain !important; 
-            mix-blend-mode: multiply; 
-            image-rendering: -webkit-optimize-contrast; 
-            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+        .hot-featured-icon img:not(.emoji), .hot-card-icon img:not(.emoji), .list-icon img:not(.emoji), .cart-icon img:not(.emoji) {
+            width: 90% !important; height: 90% !important; object-fit: contain !important; mix-blend-mode: multiply; 
+            image-rendering: -webkit-optimize-contrast; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
         }
 
         /* ═══ HEADER ═══ */
-        .header {
-            flex-shrink: 0; 
-            background: #fcf9ea; 
-            padding: 0 20px;
-            height: 85px; 
-            display: flex; 
-            align-items: center;
-            justify-content: space-between; 
-            position: relative; 
-            z-index: 30;
-            border-radius: 0 0 24px 24px; 
-            box-shadow: 0 6px 20px rgba(0,0,0,0.06); 
-            overflow: hidden; 
-        }
+        .header { flex-shrink: 0; background: #fcf9ea; padding: 0 20px; height: 85px; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 30; border-radius: 0 0 24px 24px; box-shadow: 0 6px 20px rgba(0,0,0,0.06); overflow: hidden; }
         
-        /* CHỈNH KÍCH THƯỚC LOGO TẠI ĐÂY */
-        .logo { 
-            cursor: pointer; 
-            display: block; 
-            width: 140px; 
-            height: 100%;
-            position: relative;
-        }
+        /* ĐÃ CHỈNH LOGO DỊCH LÊN TRÊN ĐỂ KHÔNG BỊ CẮT CHỮ */
+        .logo { cursor: pointer; display: block; width: 140px; height: 100%; position: relative; }
         .logo img { 
-            position: absolute;
-            top: 50%; 
-            left: -5px; 
-            width: 100%; 
-            height: auto; 
-            mix-blend-mode: multiply; 
-            transform: translateY(-50%) scale(1.15); 
-            transform-origin: left center;
-            animation: bowlBreath 4s ease-in-out infinite;
+            position: absolute; top: 50%; left: -5px; width: 100%; height: auto; mix-blend-mode: multiply; 
+            /* Sửa lại translateY thành -40% để kéo toàn bộ khung ảnh đi lên */
+            transform: translateY(-40%) scale(1.15); 
+            transform-origin: left center; animation: bowlBreath 4s ease-in-out infinite; 
         }
-        @keyframes bowlBreath {
-            0%, 100% { transform: translateY(-50%) scale(1.15); }
-            50% { transform: translateY(-53%) scale(1.15); } 
-        }
+        @keyframes bowlBreath { 0%, 100% { transform: translateY(-40%) scale(1.15); } 50% { transform: translateY(-43%) scale(1.15); } }
 
-        /* Hiệu ứng khói bốc lên */
         .smoke-wrap { position: absolute; top: 15px; left: 20%; width: 60px; height: 40px; z-index: 5; pointer-events: none; }
         .smoke { position: absolute; bottom: 0; background: rgba(138, 123, 77, 0.15); border-radius: 50%; filter: blur(4px); opacity: 0; }
         .s1 { left: 10px; width: 15px; height: 15px; animation: steam 3s infinite linear; }
         .s2 { left: 30px; width: 22px; height: 22px; animation: steam 4s infinite linear 1.2s; }
         .s3 { left: 50px; width: 12px; height: 12px; animation: steam 3.5s infinite linear 2.5s; }
-        @keyframes steam {
-            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
-            30% { opacity: 0.8; }
-            100% { transform: translateY(-35px) translateX(15px) scale(3); opacity: 0; }
-        }
+        @keyframes steam { 0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; } 30% { opacity: 0.8; } 100% { transform: translateY(-35px) translateX(15px) scale(3); opacity: 0; } }
 
         .header-actions { display: flex; align-items: center; gap: 10px; }
-
-        /* Lang Toggle Switch */
-        .lang-toggle {
-            display: flex; align-items: center; position: relative;
-            background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.05);
-            border-radius: 50px; width: 56px; height: 26px; cursor: pointer; padding: 2px;
-        }
-        .lang-slider {
-            position: absolute; top: 2px; left: 2px;
-            width: 25px; height: 20px; background: #fff;
-            border-radius: 50px; transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-        }
+        .lang-toggle { display: flex; align-items: center; position: relative; background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.05); border-radius: 50px; width: 56px; height: 26px; cursor: pointer; padding: 2px; }
+        .lang-slider { position: absolute; top: 2px; left: 2px; width: 25px; height: 20px; background: #fff; border-radius: 50px; transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
         .lang-toggle.en .lang-slider { transform: translateX(25px); }
         .lang-btn { flex: 1; text-align: center; font-size: 10px; font-weight: 700; color: rgba(0,0,0,0.4); z-index: 1; transition: color 0.25s; }
         .lang-toggle:not(.en) .lang-btn.vi { color: var(--dark); }
         .lang-toggle.en .lang-btn.en { color: var(--dark); }
-
         .fb-btn { display: flex; align-items: center; gap: 7px; background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.05); padding: 7px; border-radius: 50px; text-decoration: none; transition: background 0.2s; }
         .fb-btn:hover { background: rgba(0,0,0,0.1); }
         .fb-icon { width: 18px; height: 18px; background: #1877F2; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
@@ -165,8 +88,8 @@
         .view { display:none; }
         .view.active { display:block; }
 
-        /* ═══ HERO BANNER ═══ */
-        .hero { padding: 24px 16px 12px; position: relative; }
+        /* ═══ HERO ═══ */
+        .hero { padding: 20px 16px 10px; position: relative; }
         .hero-card { background: linear-gradient(135deg, #2a2000, #120e00); border-radius: 28px; padding: 24px 20px; display: flex; align-items: center; justify-content: space-between; gap: 10px; position: relative; overflow: hidden; box-shadow: 0 16px 36px rgba(245, 203, 30, 0.2); border: 1px solid rgba(245, 203, 30, 0.3); }
         .hero-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(245,203,30,0.18) 0%, transparent 70%); border-radius: 50%; }
         .hero-left { position: relative; z-index: 1; }
@@ -220,7 +143,7 @@
         .list-add { width: 32px; height: 32px; flex-shrink: 0; background: var(--y100); border: 1px solid var(--border-md); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--y600); line-height: 1; font-weight: 500; transition: background 0.15s, transform 0.15s; }
         .list-item:hover .list-add { background: var(--y400); color: var(--dark); transform: scale(1.08); }
 
-        /* ═══ THIẾT KẾ LẠI STORY: PHONG CÁCH TẠP CHÍ (EDITORIAL) ═══ */
+        /* ═══ STORY DESIGN - ĐÃ PHỤC HỒI CSS BỊ MẤT ═══ */
         .story-wrapper {
             position: relative; border-radius: var(--r-xl); padding: 32px 24px;
             background: #140e00; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.15);
@@ -343,8 +266,8 @@
         .overlay.show { display:block; }
         .overlay.vis { opacity:1; }
 
-        .modal { position:fixed; bottom:0; left:50%; transform:translateX(-50%) translateY(100%); width:100%; max-width:430px; background:var(--bg); border-radius:28px 28px 0 0; z-index:50; height:90dvh; display:flex; flex-direction:column; transition:transform 0.35s cubic-bezier(0.2,0.8,0.2,1); box-shadow:0 -20px 60px rgba(0,0,0,0.3); }
-        .modal.open { transform:translateX(-50%) translateY(0); }
+        .modal { position:fixed; bottom:0; left:50%; transform:translateX(-50%) translateY(100%); width:100%; max-width:430px; background:var(--bg); border-radius:28px 28px 0 0; z-index:50; height:90dvh; display:flex; flex-direction:column; transition:transform 0.35s cubic-bezier(0.2,0.8,0.2,1); box-shadow:none; }
+        .modal.open { transform:translateX(-50%) translateY(0); box-shadow:0 -20px 60px rgba(0,0,0,0.3); }
         .modal-handle { width:40px; height:5px; background:var(--border-strong); border-radius:3px; margin:12px auto 0; flex-shrink:0; }
         .modal-head { padding:16px 20px; border-bottom:1.5px solid var(--border); display:flex; align-items:flex-start; justify-content:space-between; flex-shrink:0; }
         .modal-head h3 { font-family:'Lora',serif; font-size:22px; font-weight:700; color:var(--ink); letter-spacing:-0.3px; max-width:80%; line-height:1.25; }
@@ -457,11 +380,10 @@
         <div class="header-actions">
             <div class="lang-toggle" id="lang-btn" onclick="toggleLang()">
                 <div class="lang-slider"></div>
-                <div class="lang-btn vi">VI</div>
-                <div class="lang-btn en">EN</div>
+                <div class="lang-btn vi">VI</div><div class="lang-btn en">EN</div>
             </div>
             
-            <a href="https://facebook.com" target="_blank" class="fb-btn" style="padding: 6px;">
+            <a href="https://facebook.com" target="_blank" class="fb-btn">
                 <div class="fb-icon"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
             </a>
         </div>
@@ -591,7 +513,7 @@
 </div>
 
 <script>
-// Hàm xử lý Icon linh hoạt: Nếu là ảnh thì tạo thẻ IMG, nếu là emoji thì giữ nguyên để Twemoji xử lý
+// Hàm bổ trợ để nhận diện icon là Emoji hay Hình ảnh (Tương thích tốt cho tương lai)
 function getIcon(iconPath, name) {
     if (!iconPath) return "";
     const isImage = /\.(jpg|jpeg|png|webp|avif|gif)$/i.test(iconPath);
@@ -732,6 +654,7 @@ const i18n = {
 };
 
 let lang = 'vi';
+
 function t(key) { return i18n[lang][key] || key; }
 
 function updateStaticUI() {
@@ -760,7 +683,7 @@ function toggleLang() {
     renderCart();
 }
 
-/* ĐÃ CẬP NHẬT LẠI ICON CHO CHUẨN XÁC VỚI MÓN ĂN */
+/* ĐÃ CẬP NHẬT LẠI BỘ EMOJI CHUẨN MÓN ĂN VIỆT NAM */
 const PRODUCTS=[
     {id:1,name:"Chè Đậu Xanh Đánh", nameEn:"Mung Bean Sweet Soup", desc:"Mịn màng, thanh mát", descEn:"Smooth & refreshing", price:20000,icon:"🥣",isHot:true},
     {id:2,name:"Chè Đậu Đỏ Ghiền", nameEn:"Red Bean Delight", desc:"Bùi béo, may mắn", descEn:"Nutty & lucky", price:20000,icon:"🫘",isHot:true},
@@ -803,25 +726,6 @@ const TOPPINGS=[
 let cart=[], cur=null, ms={size:'M',sweet:'70',temp:'ice',tops:{},qty:1,note:''}, tTimer;
 const fmt=n=>n.toLocaleString('vi-VN')+'đ';
 
-function toast(type,title,msg){
-    clearTimeout(tTimer);
-    const el=document.getElementById('toast');
-    const ic=document.getElementById('t-icon');
-    const br=document.getElementById('t-bar');
-    document.getElementById('t-title').textContent=title;
-    document.getElementById('t-msg').textContent=msg;
-    ic.className='t-icon '+type;
-    br.className='t-bar '+type;
-    ic.innerHTML=type==='ok'
-        ?`<svg width="20" height="20" fill="none" stroke="#e8b800" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`
-        :`<svg width="20" height="20" fill="none" stroke="#ef4444" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>`;
-    br.style.transition='none'; br.style.width='100%';
-    el.classList.add('show');
-    setTimeout(()=>{br.style.transition='width 3s linear'; br.style.width='0%';},50);
-    tTimer=setTimeout(()=>el.classList.remove('show'),3200);
-    if(navigator.vibrate) navigator.vibrate(40);
-}
-
 function init(){
     const hot=PRODUCTS.filter(p=>p.isHot).slice(0,3);
     document.getElementById('hot-items').innerHTML=`
@@ -858,7 +762,7 @@ function init(){
     document.getElementById('home-mini').innerHTML=PRODUCTS.slice(3,5).map(lHtml).join('');
     document.getElementById('full-menu').innerHTML=PRODUCTS.map(lHtml).join('');
     
-    // Yêu cầu twemoji chuyển đổi các text emoji thành hình ảnh đẹp
+    // Gọi Twemoji để chuyển emoji text thành hình ảnh nét căng
     if(typeof twemoji !== 'undefined') twemoji.parse(document.body);
 }
 
@@ -1014,7 +918,6 @@ function updateBadge(){
     b.textContent=n; b.className='badge'+(n>0?' show':'');
 }
 
-let payM='cash';
 function renderCart(){
     const area=document.getElementById('cart-area');
     if(!cart.length){
@@ -1096,12 +999,12 @@ function renderCart(){
         if(el) el.textContent=this.value?'- '+this.value:'';
     });
     
-    // Yêu cầu twemoji chuyển đổi các text emoji thành hình ảnh đẹp trong giỏ hàng
     if(typeof twemoji !== 'undefined') twemoji.parse(area);
 }
 
 function rmItem(i){cart.splice(i,1);updateBadge();renderCart();}
 
+let payM='cash';
 function setPay(m){
     payM=m;
     document.getElementById('pb-cash').className='pay-btn'+(m==='cash'?' sel':'');
